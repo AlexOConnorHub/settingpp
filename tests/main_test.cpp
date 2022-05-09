@@ -1,15 +1,26 @@
- //
-// Created by alex on 5/7/22.
-//
+#include <iostream>
+#include <cstring>
+#include "all_test.h"
 
-#include "settingpp.hpp"
-
-int main() {
-    auto settings = new settingpp::settings("PiEar");
-    settings->set("test", "test");
-    settings->set("test2", "test2");
-    settings->set("test3", "test3");
-    settings->get<std::string>("test");
-    delete settings;
-    return 0;
+int main(int argc, char const *argv[])
+{
+    bool output = false;
+    if (argc > 2)
+    {
+        if (!strcmp(argv[2], "-h") || !strcmp(argv[2], "--help"))
+        {
+            std::cout << "Usage: ./main_test [-v|--verbose]" << std::endl;
+        }
+        if (!strcmp(argv[2], "-v") || !strcmp(argv[2], "--verbose"))
+        {
+            output = true;
+        }
+    }
+    bool final_result = data_type_test(output);
+    final_result = (final_result && edge_case_test(output));
+    final_result = (final_result && load_write_file_test(output));
+    if (!final_result)
+    {
+        std::cout << "Tests failed" << std::endl;
+    }
 }
